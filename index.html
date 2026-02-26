@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alsaeed Cargo - Gönderi Takip</title>
+
+<style>
+body{
+    font-family: Arial, sans-serif;
+    background:#f4f6f9;
+    margin:0;
+    padding:0;
+    text-align:center;
+}
+header{
+    background:#0d47a1;
+    color:white;
+    padding:20px;
+    font-size:22px;
+    font-weight:bold;
+}
+.container{
+    margin-top:40px;
+}
+input{
+    padding:12px;
+    width:250px;
+    border:1px solid #ccc;
+    border-radius:5px;
+}
+button{
+    padding:12px 20px;
+    background:#0d47a1;
+    color:white;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+}
+button:hover{
+    background:#1565c0;
+}
+.result{
+    margin-top:30px;
+    background:white;
+    padding:20px;
+    width:90%;
+    max-width:500px;
+    margin-left:auto;
+    margin-right:auto;
+    border-radius:10px;
+    box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+.status{
+    font-weight:bold;
+    margin-top:10px;
+}
+.timeline{
+    text-align:left;
+    margin-top:15px;
+}
+.timeline div{
+    margin-bottom:8px;
+    font-size:14px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+ALSAEED CARGO LOJİSTİK
+</header>
+
+<div class="container">
+<input type="text" id="trackingInput" placeholder="Takip Numarası Giriniz">
+<button onclick="trackShipment()">Sorgula</button>
+
+<div id="result" class="result" style="display:none;"></div>
+</div>
+
+<script>
+
+var shipments = {
+
+"AP20260226002": {
+   alici: "AISHA HLO AJOURI",
+   sehir: "ANKARA / ALTINDAĞ",
+   durum: "Gönderi kabul edildi",
+   hareketler: [
+      ["26.02.2026 15:05", "Gönderi kabul edildi."]
+   ]
+},
+
+"AP20231222167": {
+   alici: "SUAD EL NASEN",
+   sehir: "Aydin / Türkiye",
+   durum: "Dağıtıma Çıkarılacak",
+   hareketler: [
+      ["26.02.2026 09:45", "Gönderi dağıtım şubesinde."],
+      ["26.02.2026 08:30", "Gönderi varış transfer merkezinde."],
+      ["25.02.2026 18:10", "Gönderi çıkış hat aracına yüklendi."],
+      ["25.02.2026 10:15", "Gönderi kabulü yapıldı."]
+   ]
+}
+
+};
+
+function trackShipment(){
+
+    var input = document.getElementById("trackingInput").value.trim();
+    var resultDiv = document.getElementById("result");
+
+    if(shipments[input]){
+
+        var data = shipments[input];
+
+        var html = `
+            <h3>Takip No: ${input}</h3>
+            <p><strong>Alıcı:</strong> ${data.alici}</p>
+            <p><strong>Şehir:</strong> ${data.sehir}</p>
+            <p class="status">Durum: ${data.durum}</p>
+            <div class="timeline">
+                <h4>Hareketler:</h4>
+        `;
+
+        data.hareketler.forEach(function(item){
+            html += `<div>${item[0]} - ${item[1]}</div>`;
+        });
+
+        html += `</div>`;
+
+        resultDiv.innerHTML = html;
+        resultDiv.style.display = "block";
+
+    } else {
+        resultDiv.innerHTML = "<p style='color:red;'>Gönderi bulunamadı.</p>";
+        resultDiv.style.display = "block";
+    }
+
+}
+
+</script>
+
+</body>
+</html>
