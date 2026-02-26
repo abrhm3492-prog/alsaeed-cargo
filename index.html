@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ALSAEED KARGO - Takip</title>
+
+<style>
+body{
+  margin:0;
+  font-family:Arial, sans-serif;
+  background:linear-gradient(to bottom,#0f2027,#203a43,#2c5364);
+}
+
+/* HEADER */
+.header{
+  background:#0d47a1;
+  color:white;
+  text-align:center;
+  padding:25px 10px;
+  font-size:24px;
+  font-weight:bold;
+  letter-spacing:2px;
+  box-shadow:0 4px 10px rgba(0,0,0,0.3);
+}
+
+.header p{
+  font-size:14px;
+  margin:5px 0 0;
+  color:#bbdefb;
+}
+
+/* CONTAINER */
+.container{
+  background:rgba(255,255,255,0.95);
+  padding:30px;
+  border-radius:15px;
+  width:90%;
+  max-width:420px;
+  margin:40px auto;
+  box-shadow:0 15px 35px rgba(0,0,0,0.4);
+  text-align:center;
+}
+
+h2{
+  margin-bottom:20px;
+  color:#0d47a1;
+}
+
+input{
+  width:90%;
+  padding:12px;
+  margin-bottom:15px;
+  border-radius:5px;
+  border:1px solid #ccc;
+}
+
+button{
+  padding:12px 25px;
+  background:#ff9800;
+  color:white;
+  border:none;
+  border-radius:5px;
+  cursor:pointer;
+  font-weight:bold;
+  font-size:16px;
+}
+
+button:hover{
+  background:#e68900;
+}
+
+.result{
+  margin-top:20px;
+  text-align:left;
+  font-size:14px;
+}
+
+/* STATUS */
+.status{
+  font-weight:bold;
+  color:#ff9800;
+}
+
+/* TRACKING STEPS */
+.tracking-steps{
+  display:flex;
+  justify-content:space-between;
+  margin-top:30px;
+  position:relative;
+}
+
+.tracking-steps::before{
+  content:"";
+  position:absolute;
+  top:30px;
+  left:5%;
+  width:90%;
+  height:4px;
+  background:#ddd;
+  z-index:0;
+}
+
+.step{
+  text-align:center;
+  width:25%;
+  position:relative;
+  z-index:1;
+}
+
+.circle{
+  width:60px;
+  height:60px;
+  background:#ddd;
+  border-radius:50%;
+  line-height:60px;
+  font-size:22px;
+  margin:auto;
+  color:white;
+}
+
+.completed .circle{
+  background:#4caf50;
+}
+
+.active .circle{
+  background:#ff9800;
+}
+
+.step p{
+  font-size:12px;
+  margin-top:8px;
+}
+
+/* FOOTER */
+.footer{
+  text-align:center;
+  color:white;
+  padding:20px;
+  font-size:12px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+  ALSAEED KARGO
+  <p>Güvenli ve Hızlı Taşımacılık</p>
+</div>
+
+<div class="container">
+  <h2>Kargo Takip Sistemi</h2>
+
+  <input type="text" id="tracking" placeholder="Takip Numaranızı Girin">
+  <br>
+  <button onclick="checkTracking()">Sorgula</button>
+
+  <div class="result" id="result"></div>
+
+  <div id="stepsArea"></div>
+</div>
+
+<div class="footer">
+  © 2026 ALSAEED KARGO LOJİSTİK
+</div>
+
+<script>
+function checkTracking(){
+  var code=document.getElementById("tracking").value;
+  var result=document.getElementById("result");
+  var steps=document.getElementById("stepsArea");
+
+  if(code==="AP20231222167"){
+    result.innerHTML=
+      "<p><strong>Takip No:</strong> AP20231222167</p>"+
+      "<p><strong>Alıcı:</strong> SUAD EL NASEN</p>"+
+      "<p><strong>Şehir:</strong> Aydın / Türkiye</p>"+
+      "<p><strong>Durum:</strong> <span class='status'>Dağıtıma Çıkarılacak</span></p>";
+
+    steps.innerHTML=`
+    <div class="tracking-steps">
+      <div class="step completed">
+        <div class="circle">✓</div>
+        <p>Kabul Edildi</p>
+      </div>
+      <div class="step completed">
+        <div class="circle">✓</div>
+        <p>Transfer</p>
+      </div>
+      <div class="step active">
+        <div class="circle">🚚</div>
+        <p>Dağıtım</p>
+      </div>
+      <div class="step">
+        <div class="circle">📦</div>
+        <p>Teslim</p>
+      </div>
+    </div>`;
+  }
+  else{
+    result.innerHTML="<p style='color:red;'>Takip numarası bulunamadı.</p>";
+    steps.innerHTML="";
+  }
+}
+</script>
+
+</body>
+</html>
