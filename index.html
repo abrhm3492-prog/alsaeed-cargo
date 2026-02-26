@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ALSAEED KARGO - Takip</title>
+
+<style>
+body{
+  margin:0;
+  font-family:Arial, sans-serif;
+  background:linear-gradient(to bottom,#0f2027,#203a43,#2c5364);
+  color:white;
+}
+.header{
+  background:#0d47a1;
+  text-align:center;
+  padding:25px 10px;
+  font-size:24px;
+  font-weight:bold;
+  letter-spacing:2px;
+}
+.container{
+  background:#1e1e1e;
+  padding:25px;
+  border-radius:15px;
+  width:95%;
+  max-width:500px;
+  margin:30px auto;
+  box-shadow:0 15px 35px rgba(0,0,0,0.6);
+  text-align:center;
+}
+h2{ margin-bottom:20px; }
+input{
+  width:90%;
+  padding:12px;
+  margin:15px 0;
+  border-radius:5px;
+  border:1px solid #444;
+  background:#2a2a2a;
+  color:white;
+}
+button{
+  padding:12px 25px;
+  background:#ff6a00;
+  color:white;
+  border:none;
+  border-radius:5px;
+  cursor:pointer;
+  font-weight:bold;
+}
+.result{
+  text-align:left;
+  font-size:14px;
+  margin-top:15px;
+}
+.status{
+  font-weight:bold;
+  color:#ff9800;
+}
+.tracking-steps{
+  display:flex;
+  justify-content:space-between;
+  margin-top:30px;
+  position:relative;
+}
+.tracking-steps::before{
+  content:"";
+  position:absolute;
+  top:30px;
+  left:5%;
+  width:90%;
+  height:3px;
+  background:#444;
+  z-index:0;
+}
+.step{
+  text-align:center;
+  width:25%;
+  position:relative;
+  z-index:1;
+}
+.circle{
+  width:55px;
+  height:55px;
+  background:#333;
+  border-radius:50%;
+  line-height:55px;
+  font-size:20px;
+  margin:auto;
+}
+.completed .circle{ background:green; }
+.active .circle{ background:red; }
+.step p{
+  font-size:12px;
+  margin-top:8px;
+}
+.table-box{
+  margin-top:30px;
+  border-radius:10px;
+  overflow:hidden;
+}
+.table-header{
+  background:#001f5c;
+  padding:15px;
+  font-weight:bold;
+}
+table{
+  width:100%;
+  border-collapse:collapse;
+  background:#222;
+}
+th{
+  background:#002b80;
+  padding:10px;
+}
+td{
+  padding:10px;
+  border-bottom:1px solid #444;
+}
+.footer{
+  text-align:center;
+  padding:20px;
+  font-size:12px;
+  color:#ccc;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">ALSAEED KARGO</div>
+
+<div class="container">
+  <h2>Kargom Nerede?</h2>
+  <input type="text" id="tracking" placeholder="Takip Numaranızı Girin">
+  <br>
+  <button onclick="checkTracking()">Sorgula</button>
+
+  <div id="result"></div>
+  <div id="stepsArea"></div>
+  <div id="tableArea"></div>
+</div>
+
+<div class="footer">
+  © 2026 ALSAEED KARGO LOJİSTİK
+</div>
+
+<script>
+
+var shipments = {
+
+  "AP20260226002": {
+    alici: "AISHA HLO AJOURI",
+    sehir: "ANKARA / ALTINDAĞ",
+    durum: "Gönderi kabul edildi",
+    step: 1,
+    hareketler: [
+      ["26.02.2026 15:05","Gönderi kabul edildi."]
+    ]
+  },
+
+  "AP20231222167": {
+    alici: "SUAD EL NASEN",
+    sehir: "Aydın / Türkiye",
+    durum: "Dağıtıma Çıkarılacak",
+    step: 3,
+    hareketler: [
+      ["26.02.2026 09:45","Gönderi dağıtım şubesinde."],
+      ["26.02.2026 08:30","Gönderi varış transfer merkezinde."],
+      ["25.02.2026 18:10","Gönderi çıkış hat aracına yüklendi."],
+      ["25.02.2026 10:15","Gönderi kabulü yapıldı."]
+    ]
+  },
+
+  "AP20260226003": {
+    alici: "ABDULREZZAK HAMMUD",
+    sehir: "KONYA / EREĞLİ - HIDIRLI MH İSMET PAŞA CD",
+    durum: "Gönderi kabul edildi",
+    step: 1,
+    hareketler: [
+      ["26.02.2026 16:20","Gönderi kabul edildi."]
+    ]
+  }
+
+};
+
+function checkTracking(){
+  var code=document.getElementById("tracking").value.trim();
+  var result=document.getElementById("result");
+  var steps=document.getElementById("stepsArea");
+  var table=document.getElementById("tableArea");
+
+  if(shipments[code]){
+    var data=shipments[code];
+
+    result.innerHTML=
+      "<p><strong>Teslimat No:</strong> "+code+"</p>"+
+      "<p><strong>Alıcı:</strong> "+data.alici+"</p>"+
+      "<p><strong>Şehir:</strong> "+data.sehir+"</p>"+
+      "<p><strong>Durum:</strong> <span class='status'>"+data.durum+"</span></p>";
+
+    function stepClass(n){
+      if(data.step>n) return "step completed";
+      if(data.step==n) return "step active";
+      return "step";
+    }
+
+    steps.innerHTML=`
+    <div class="tracking-steps">
+      <div class="${stepClass(1)}"><div class="circle">✓</div><p>Kabul</p></div>
+      <div class="${stepClass(2)}"><div class="circle">✓</div><p>Transfer</p></div>
+      <div class="${stepClass(3)}"><div class="circle">🚚</div><p>Dağıtım</p></div>
+      <div class="${stepClass(4)}"><div class="circle">📦</div><p>Teslim</p></div>
+    </div>`;
+
+    var rows="";
+    data.hareketler.forEach(function(item){
+      rows+="<tr><td>"+item[0]+"</td><td>"+item[1]+"</td></tr>";
+    });
+
+    table.innerHTML=`
+    <div class="table-box">
+      <div class="table-header">Teslimat Numarası: ${code}</div>
+      <table>
+        <tr>
+          <th>TARİH</th>
+          <th>DURUM</th>
+        </tr>
+        ${rows}
+      </table>
+    </div>`;
+  }
+  else{
+    result.innerHTML="<p style='color:red;'>Takip numarası bulunamadı.</p>";
+    steps.innerHTML="";
+    table.innerHTML="";
+  }
+}
+
+</script>
+
+</body>
+</html>
