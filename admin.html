@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Panel - ALSAEED KARGO</title>
+<style>
+body{
+font-family:Arial;
+background:#0f2027;
+color:white;
+text-align:center;
+padding:20px;
+}
+input,select{
+padding:10px;
+margin:5px;
+width:90%;
+max-width:300px;
+}
+button{
+padding:10px 20px;
+background:#0d47a1;
+color:white;
+border:none;
+cursor:pointer;
+}
+.box{
+background:#1c2b36;
+padding:20px;
+margin-top:20px;
+border-radius:10px;
+}
+</style>
+</head>
+<body>
+
+<h2>ALSAEED KARGO - Admin Panel</h2>
+
+<div class="box">
+<input type="password" id="pass" placeholder="Şifre">
+<br>
+<button onclick="login()">Giriş</button>
+</div>
+
+<div class="box" id="panel" style="display:none;">
+<h3>Yeni Kargo Ekle</h3>
+<input type="text" id="track" placeholder="Takip Numarası"><br>
+<input type="text" id="name" placeholder="Alıcı İsmi"><br>
+<input type="text" id="city" placeholder="Şehir"><br>
+<select id="status">
+<option value="Hazırlanıyor">Hazırlanıyor</option>
+<option value="Yolda">Yolda</option>
+<option value="Teslim Edildi">Teslim Edildi</option>
+</select><br>
+<button onclick="save()">Kaydet</button>
+</div>
+
+<script>
+function login(){
+if(document.getElementById("pass").value=="1234"){
+document.getElementById("panel").style.display="block";
+}else{
+alert("Yanlış Şifre");
+}
+}
+
+function save(){
+let track=document.getElementById("track").value;
+let name=document.getElementById("name").value;
+let city=document.getElementById("city").value;
+let status=document.getElementById("status").value;
+
+let data=JSON.parse(localStorage.getItem("kargo")) || {};
+data[track]={name,city,status};
+localStorage.setItem("kargo",JSON.stringify(data));
+
+alert("Kaydedildi!");
+}
+</script>
+
+</body>
+</html>
