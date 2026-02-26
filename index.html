@@ -2,106 +2,77 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Alsaeed Cargo | Kargo Takip</title>
+<title>Kargo Takip Sistemi</title>
 
 <style>
 body {
-  margin: 0;
-  font-family: 'Segoe UI', Tahoma, sans-serif;
-  background: #f2f5f9;
+  font-family: Arial, sans-serif;
+  background: #f4f4f4;
+  padding: 40px;
 }
 
-/* HEADER */
-.header {
-  background: #002b5c;
-  color: white;
-  padding: 15px 40px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.logo {
-  font-size: 20px;
-  font-weight: bold;
-}
-
-.nav a {
-  color: white;
-  text-decoration: none;
-  margin-left: 20px;
-  font-size: 14px;
-}
-
-/* MAIN */
-.main {
-  padding: 60px 20px;
+.container {
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  width: 400px;
+  margin: auto;
+  box-shadow: 0 0 15px rgba(0,0,0,0.1);
   text-align: center;
 }
 
-.card {
-  background: white;
-  padding: 40px;
-  max-width: 500px;
-  margin: auto;
-  border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-}
-
-.card h2 {
-  margin-bottom: 20px;
-  color: #002b5c;
-}
-
 input {
-  width: 100%;
-  padding: 12px;
-  margin-bottom: 15px;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  font-size: 14px;
+  width: 80%;
+  padding: 10px;
+  margin: 10px 0;
 }
 
 button {
-  width: 100%;
-  padding: 12px;
-  background: #ff6b00;
+  padding: 10px 20px;
+  background: #1e90ff;
   color: white;
   border: none;
-  border-radius: 6px;
-  font-size: 15px;
   cursor: pointer;
-  transition: 0.3s;
-}
-
-button:hover {
-  background: #e65c00;
 }
 
 .result {
   margin-top: 20px;
+  font-weight: bold;
   text-align: left;
-  font-size: 14px;
 }
+</style>
+</head>
 
-/* STATUS BADGE */
-.status {
-  display: inline-block;
-  padding: 6px 10px;
-  border-radius: 20px;
-  font-size: 12px;
-  color: white;
+<body>
+
+<div class="container">
+  <h2>Kargo Takip Sistemi</h2>
+
+  <input type="text" id="tracking" placeholder="Takip Numaranızı Girin">
+  <br>
+  <button onclick="checkTracking()">Sorgula</button>
+
+  <div class="result" id="result"></div>
+</div>
+
+<script>
+function checkTracking() {
+  var code = document.getElementById("tracking").value;
+  var result = document.getElementById("result");
+
+  if (code === "AP20231222167") {
+    result.innerHTML =
+      "<p><strong>Alıcı:</strong> SUAD EL NASEN</p>" +
+      "<p><strong>Adres:</strong> Çarşı, Şht. Er Mehmet Aydın Sk. No:5, 09570 Köşk/Aydın</p>" +
+      "<p><strong>İletişim:</strong> 05354850091</p>" +
+      "<p><strong>Ödenmiş:</strong> 7000 TL</p>" +
+      "<p><strong>Siparişiniz:</strong> TV + Et Makinası</p>" +
+      "<p><strong>Durum:</strong> Hazırlanıyor</p>";
+  } else {
+    result.innerHTML = "Takip numarası bulunamadı.";
+  }
 }
+</script>
 
-.preparing { background: #f39c12; }
-.onway { background: #3498db; }
-.delivered { background: #2ecc71; }
-
-/* FOOTER */
-.footer {
-  margin-top: 80px;
-  background: #002b5c;
-  color: white;
-  text-align: center;
-  padding: 20px
+</body>
+</html>
