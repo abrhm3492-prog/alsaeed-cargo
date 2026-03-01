@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MNGX Kargo</title>
+
+<style>
+body{
+margin:0;
+font-family:Arial, sans-serif;
+background:#0f0f14;
+color:white;
+}
+
+.header{
+background:#0d1b6b;
+padding:20px;
+text-align:center;
+font-size:24px;
+font-weight:bold;
+}
+
+.container{
+padding:30px 15px;
+max-width:900px;
+margin:auto;
+}
+
+input{
+width:100%;
+padding:14px;
+border-radius:10px;
+border:2px solid orange;
+background:#1c1c22;
+color:white;
+font-size:16px;
+}
+
+button{
+margin-top:15px;
+padding:12px;
+width:100%;
+background:#d60000;
+border:none;
+border-radius:8px;
+color:white;
+font-size:16px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.result{
+margin-top:30px;
+display:none;
+}
+
+.status{
+margin-top:20px;
+color:orange;
+font-weight:bold;
+}
+
+.steps{
+display:flex;
+justify-content:space-between;
+margin-top:30px;
+align-items:center;
+}
+
+.step{
+text-align:center;
+flex:1;
+}
+
+.circle{
+width:60px;
+height:60px;
+border-radius:50%;
+background:#1f1f26;
+margin:auto;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:22px;
+}
+
+.active{
+background:#d60000;
+}
+
+.step p{
+margin-top:8px;
+font-size:14px;
+}
+
+.date-box{
+margin-top:20px;
+background:#0d1b6b;
+padding:15px;
+border-radius:8px;
+}
+
+table{
+width:100%;
+margin-top:15px;
+border-collapse:collapse;
+}
+
+th,td{
+padding:10px;
+text-align:left;
+}
+
+th{
+color:#ccc;
+border-bottom:1px solid #333;
+}
+
+td{
+border-bottom:1px solid #222;
+}
+
+.footer{
+text-align:center;
+margin-top:40px;
+padding:20px;
+background:#0d1b6b;
+}
+</style>
+</head>
+<body>
+
+<div class="header">MNGX KARGO</div>
+
+<div class="container">
+
+<h2>Kargom Nerede?</h2>
+
+<input type="text" id="trackingInput" placeholder="Takip Numarası">
+<button onclick="track()">Sorgula</button>
+
+<div class="result" id="resultBox">
+
+<p><strong>Teslimat No:</strong> AP50527133267</p>
+<p><strong>Alıcı:</strong> Naif Ahmet</p>
+<p><strong>Şehir:</strong> İstanbul / Bahçelievler</p>
+
+<div class="status">
+Durum: Gönderi kabul edildi
+</div>
+
+<div class="steps">
+<div class="step">
+<div class="circle active">✓</div>
+<p>Kabul</p>
+</div>
+
+<div class="step">
+<div class="circle">✓</div>
+<p>Transfer</p>
+</div>
+
+<div class="step">
+<div class="circle">🚚</div>
+<p>Dağıtım</p>
+</div>
+
+<div class="step">
+<div class="circle">📦</div>
+<p>Teslim</p>
+</div>
+</div>
+
+<div class="date-box">
+<table>
+<tr>
+<th>TARİH</th>
+<th>DURUM</th>
+</tr>
+<tr>
+<td id="dateCell"></td>
+<td>Gönderi kabul edildi</td>
+</tr>
+</table>
+</div>
+
+</div>
+
+</div>
+
+<div class="footer">© 2026 MNGX Kargo</div>
+
+<script>
+
+function track(){
+var code=document.getElementById("trackingInput").value.trim();
+if(code==="AP50527133267"){
+document.getElementById("resultBox").style.display="block";
+document.getElementById("dateCell").innerText=
+new Date().toLocaleString("tr-TR");
+}else{
+alert("Gönderi bulunamadı");
+}
+}
+
+</script>
+
+</body>
+</html>
