@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MNGX Kargo</title>
+
+<style>
+body{
+margin:0;
+font-family:Arial, sans-serif;
+background:#0f0f14;
+color:white;
+}
+
+.header{
+background:#0d1b6b;
+padding:20px;
+text-align:center;
+font-size:24px;
+font-weight:bold;
+}
+
+.container{
+padding:30px 15px;
+max-width:900px;
+margin:auto;
+}
+
+input{
+width:100%;
+padding:14px;
+border-radius:10px;
+border:2px solid orange;
+background:#1c1c22;
+color:white;
+font-size:16px;
+}
+
+button{
+margin-top:15px;
+padding:12px;
+width:100%;
+background:#d60000;
+border:none;
+border-radius:8px;
+color:white;
+font-size:16px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.result{
+margin-top:30px;
+display:none;
+}
+
+.status{
+margin-top:15px;
+color:orange;
+font-weight:bold;
+}
+
+.info p{
+margin:6px 0;
+}
+
+.steps{
+display:flex;
+justify-content:space-between;
+margin-top:30px;
+align-items:center;
+}
+
+.step{
+text-align:center;
+flex:1;
+}
+
+.circle{
+width:60px;
+height:60px;
+border-radius:50%;
+background:#1f1f26;
+margin:auto;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:22px;
+}
+
+.active{
+background:#d60000;
+}
+
+.step p{
+margin-top:8px;
+font-size:14px;
+}
+
+.date-box{
+margin-top:25px;
+background:#0d1b6b;
+padding:15px;
+border-radius:8px;
+}
+
+table{
+width:100%;
+margin-top:10px;
+border-collapse:collapse;
+}
+
+th,td{
+padding:10px;
+text-align:left;
+}
+
+th{
+color:#ccc;
+border-bottom:1px solid #333;
+}
+
+td{
+border-bottom:1px solid #222;
+}
+
+.footer{
+text-align:center;
+margin-top:40px;
+padding:20px;
+background:#0d1b6b;
+}
+</style>
+</head>
+<body>
+
+<div class="header">MNGX Kargo</div>
+
+<div class="container">
+
+<h2>Kargom Nerede?</h2>
+
+<input type="text" id="trackingInput" placeholder="Takip Numarası">
+<button onclick="track()">Sorgula</button>
+
+<div class="result" id="resultBox">
+
+<div class="info">
+<p id="no"></p>
+<p id="alici"></p>
+<p id="sehir"></p>
+<p id="adres"></p>
+<p id="tel"></p>
+<p id="urun"></p>
+</div>
+
+<div class="status" id="durumText"></div>
+
+<div class="steps">
+<div class="step">
+<div class="circle" id="step1">✓</div>
+<p>Kabul</p>
+</div>
+
+<div class="step">
+<div class="circle" id="step2">✓</div>
+<p>Transfer</p>
+</div>
+
+<div class="step">
+<div class="circle">🚚</div>
+<p>Dağıtım</p>
+</div>
+
+<div class="step">
+<div class="circle">📦</div>
+<p>Teslim</p>
+</div>
+</div>
+
+<div class="date-box">
+<table>
+<tr>
+<th>TARİH</th>
+<th>DURUM</th>
+</tr>
+<tbody id="historyTable"></tbody>
+</table>
+</div>
+
+</div>
+
+</div>
+
+<div class="footer">© 2026 MNGX Kargo</div>
+
+<script>
+
+function getToday(){
+return new Date().toLocaleString("tr-TR");
+}
+
+function getYesterday(){
+var d=new Date();
+d.setDate(d.getDate()-1);
+return d.toLocaleString("tr-TR");
+}
+
+var shipments = {
+
+"AP50527133267":{
+alici:"Naif Ahmet",
+sehir:"İstanbul / Bahçelievler",
+adres:"Hürriyet Mah. Şafak Sok. No:6 Daire:6",
+tel:"-",
+urun:"-",
+durum:2,
+history:[
+{date:"02.03.2026 14:30",status:"Gönderi kabul edilmiştir"},
+{date:getToday(),status:"Transfer sürecinde"}
+]
+},
+
+"AP50527133268":{
+alici:"Salih Elhamed",
+sehir:"Konya / Meram",
+adres:"Uzunharmanlar Mah. Ecz. Hüsamettin Sk. No:8",
+tel:"05317745811",
+urun:"1 Adet Akülü Motor",
+durum:2,
+history:[
+{date:getYesterday(),status:"Gönderi kabul edilmiştir"},
+{date:getToday(),status:"Transfer sürecinde"}
+]
+},
+
+"AP40427133278":{
+alici:"Abdulfettah Edlbi Kalasi",
+sehir:"BURSA / İNEGÖL",
+adres:"Süleymaniye Mah. Bozdağ Sok. No:9 Kat:3",
+tel:"05525402182",
+urun:"1 Adet Kırmızı Motor (2800₺ + 200₺ Kargo Ücreti)",
+durum:2,
+history:[
+{date:getToday(),status:"Gönderi kabul edilmiştir"},
+{date:getToday(),status:"Transfer sürecinde"}
+]
+},
+
+"AP60627133999":{
+alici:"Beşşar Rihawi",
+sehir:"GAZİANTEP",
+adres:"HALIL DARICIOGLU HACIBABA MAH. 31088 SK. NO. 1 D:2 HACIBABA MAH.",
+tel:"05354162476",
+urun:"1700₺ Ödemesi",
+durum:1,
+history:[
+{date:getToday(),status:"Gönderi kabul edilmiştir"}
+]
+}
+
+};
+
+function track(){
+
+var code=document.getElementById("trackingInput").value.trim();
+var data=shipments[code];
+
+if(!data){
+alert("Gönderi bulunamadı");
+return;
+}
+
+document.getElementById("resultBox").style.display="block";
+
+document.getElementById("no").innerHTML="<strong>Teslimat No:</strong> "+code;
+document.getElementById("alici").innerHTML="<strong>Alıcı:</strong> "+data.alici;
+document.getElementById("sehir").innerHTML="<strong>Şehir:</strong> "+data.sehir;
+document.getElementById("adres").innerHTML="<strong>Adres:</strong> "+data.adres;
+document.getElementById("tel").innerHTML="<strong>İletişim:</strong> "+data.tel;
+document.getElementById("urun").innerHTML="<strong>Ürün / Not:</strong> "+data.urun;
+
+var lastStatus=data.history[data.history.length-1].status;
+document.getElementById("durumText").innerHTML="Durum: "+lastStatus;
+
+var historyHTML="";
+data.history.forEach(function(item){
+historyHTML+="<tr><td>"+item.date+"</td><td>"+item.status+"</td></tr>";
+});
+document.getElementById("historyTable").innerHTML=historyHTML;
+
+document.getElementById("step1").classList.remove("active");
+document.getElementById("step2").classList.remove("active");
+
+if(data.durum>=1){ document.getElementById("step1").classList.add("active"); }
+if(data.durum>=2){ document.getElementById("step2").classList.add("active"); }
+
+}
+
+</script>
+
+</body>
+</html>
